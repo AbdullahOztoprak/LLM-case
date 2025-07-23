@@ -11,7 +11,18 @@ An interactive Q&A system for Siemens internship experience, powered by Retrieva
 
 ---
 
-### 📦 Requirements
+### �️ Visuals
+Below are screenshots of the Siemens Internship Q&A LLM web interface:
+
+![Sample Answer1](Screenshot1.png)
+*Example answer to a Siemens internship question*
+
+![Sample Answer2](Screenshot2.png)
+*Example answer to a Siemens internship question*
+
+---
+
+### �📦 Requirements
 - Python 3.8+
 - [Ollama](https://ollama.com/) (for local LLM inference)
 - gradio, requests, numpy (see `requirements.txt`)
