@@ -28,12 +28,21 @@ An interactive Q&A system for Siemens internship experience, powered by Retrieva
    ```bash
    pip install -r requirements.txt
    ```
-3. Start Ollama server and pull required models (see code comments)
-4. Run the app:
+3. Start the Ollama server:
+   ```bash
+   ollama serve
+   ```
+4. Pull the required models:
+   ```bash
+   ollama pull llama3
+   ollama pull nomic-embed-text
+   ```
+   (These are the default LLM and embedding models used in this project. You can change them in the code if needed.)
+5. Run the app:
    ```bash
    python qa_gradio_app.py
    ```
-5. Open the Gradio link in your browser and start asking questions!
+6. Open the Gradio link in your browser and start asking questions!
 
 ---
 
