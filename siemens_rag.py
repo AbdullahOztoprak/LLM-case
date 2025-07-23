@@ -72,7 +72,7 @@ def retrieve_context(query, knowledge_base, top_k=3):
     # First, check for exact prompt match (case-insensitive, stripped)
     for doc in knowledge_base:
         if doc["prompt"].strip().lower() == query.strip().lower():
-            return doc["completion"]
+            return doc["text"]
 
     # If no exact match, use embedding similarity as before
     query_embedding = get_embedding(query)
