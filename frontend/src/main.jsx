@@ -1,11 +1,9 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
 import {
-  Braces,
   Clock3,
   Database,
   FileText,
-  Gauge,
   Loader2,
   Search,
   Server,
@@ -33,7 +31,7 @@ function App() {
   const [topK, setTopK] = useState(5);
   const [retrievalMode, setRetrievalMode] = useState("hybrid");
   const [models, setModels] = useState([]);
-  const [modelStatus, setModelStatus] = useState("Checking Ollama models...");
+  const [modelStatus, setModelStatus] = useState("Checking local models...");
   const [generationModel, setGenerationModel] = useState("");
   const [embeddingModel, setEmbeddingModel] = useState("");
   const [result, setResult] = useState(null);
@@ -47,27 +45,27 @@ function App() {
         const payload = await response.json();
         const discovered = payload.available ? payload.models : payload.fallback_models;
         setModels(discovered || []);
-        setModelStatus(payload.message);
+        setModelStatus(payload.available ? "Ollama connected" : "Using fallback model names");
         const preferredGeneration =
           discovered?.find((model) => model.toLowerCase().includes("qwen")) ||
           discovered?.[0] ||
           "llama3.1";
         setGenerationModel(preferredGeneration);
-        const embed =
-          discovered?.find((model) => model.includes("embed")) || "nomic-embed-text";
-        setEmbeddingModel(embed);
+        setEmbeddingModel(
+          discovered?.find((model) => model.includes("embed")) || "nomic-embed-text"
+        );
       } catch {
         setModels(["llama3.1", "nomic-embed-text"]);
         setGenerationModel("llama3.1");
         setEmbeddingModel("nomic-embed-text");
-        setModelStatus("Backend is not reachable yet.");
+        setModelStatus("Backend not reachable");
       }
     }
     loadModels();
   }, []);
 
   const usedSources = useMemo(() => {
-    if (!selectedSources.length) return "All sources";
+    if (!selectedSources.length) return "All documentation sources";
     return selectedSources
       .map((source) => SOURCES.find((item) => item.id === source)?.label || source)
       .join(", ");
@@ -109,12 +107,15 @@ function App() {
     );
   }
 
+  const topChunks = result?.retrieved_chunks?.slice(0, 3) || [];
+
   return (
     <main className="shell">
       <header className="topbar">
         <div>
-          <p className="eyebrow">Local documentation retrieval</p>
+          <p className="eyebrow">Local docs retrieval</p>
           <h1>Docs RAG</h1>
+          <p className="subtitle">Ask indexed developer docs and inspect the cited sources.</p>
         </div>
         <div className="status-pill">
           <Server size={16} />
@@ -122,24 +123,24 @@ function App() {
         </div>
       </header>
 
-      <form className="workspace" onSubmit={askQuestion}>
-        <aside className="panel controls">
-          <section>
-            <div className="section-title">
-              <Search size={16} />
-              <span>Query</span>
-            </div>
-            <textarea
-              value={question}
-              onChange={(event) => setQuestion(event.target.value)}
-              rows={7}
-            />
-          </section>
+      <form className="layout" onSubmit={askQuestion}>
+        <aside className="panel search-panel">
+          <div className="panel-title">
+            <Search size={17} />
+            <h2>Search</h2>
+          </div>
 
-          <section>
-            <div className="section-title">
-              <Database size={16} />
-              <span>Source filter</span>
+          <textarea
+            aria-label="Question"
+            value={question}
+            onChange={(event) => setQuestion(event.target.value)}
+            rows={5}
+          />
+
+          <div className="field-group">
+            <div className="label-row">
+              <Database size={15} />
+              <span>Sources</span>
             </div>
             <div className="source-grid">
               {SOURCES.map((source) => (
@@ -153,43 +154,11 @@ function App() {
                 </button>
               ))}
             </div>
-          </section>
+          </div>
 
-          <section className="stack">
-            <label>
-              <span>Generation model</span>
-              <select
-                value={generationModel}
-                onChange={(event) => setGenerationModel(event.target.value)}
-              >
-                {models.map((model) => (
-                  <option key={model} value={model}>
-                    {model}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <label>
-              <span>Embedding model</span>
-              <select
-                value={embeddingModel}
-                onChange={(event) => setEmbeddingModel(event.target.value)}
-              >
-                {models.map((model) => (
-                  <option key={model} value={model}>
-                    {model}
-                  </option>
-                ))}
-                {!models.includes("nomic-embed-text") && (
-                  <option value="nomic-embed-text">nomic-embed-text</option>
-                )}
-              </select>
-            </label>
-          </section>
-
-          <section>
-            <div className="section-title">
-              <SlidersHorizontal size={16} />
+          <div className="field-group">
+            <div className="label-row">
+              <SlidersHorizontal size={15} />
               <span>Retrieval</span>
             </div>
             <div className="segmented">
@@ -215,7 +184,40 @@ function App() {
               value={topK}
               onChange={(event) => setTopK(Number(event.target.value))}
             />
-          </section>
+          </div>
+
+          <details className="settings-panel">
+            <summary>Model settings</summary>
+            <label>
+              <span>Generation</span>
+              <select
+                value={generationModel}
+                onChange={(event) => setGenerationModel(event.target.value)}
+              >
+                {models.map((model) => (
+                  <option key={model} value={model}>
+                    {model}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label>
+              <span>Embedding</span>
+              <select
+                value={embeddingModel}
+                onChange={(event) => setEmbeddingModel(event.target.value)}
+              >
+                {models.map((model) => (
+                  <option key={model} value={model}>
+                    {model}
+                  </option>
+                ))}
+                {!models.includes("nomic-embed-text") && (
+                  <option value="nomic-embed-text">nomic-embed-text</option>
+                )}
+              </select>
+            </label>
+          </details>
 
           <button className="primary-action" type="submit" disabled={loading || !question.trim()}>
             {loading ? <Loader2 className="spin" size={18} /> : <Search size={18} />}
@@ -223,110 +225,90 @@ function App() {
           </button>
         </aside>
 
-        <section className="panel answer-panel">
-          <div className="panel-heading">
-            <div>
-              <p className="eyebrow">Result</p>
-              <h2>Answer</h2>
-            </div>
-            <div className="meta-row">
-              <span>
-                <Clock3 size={14} />
-                {result ? `${result.latency_ms} ms` : "Waiting"}
-              </span>
-              <span>
-                <Gauge size={14} />
-                {retrievalMode}
-              </span>
-            </div>
-          </div>
-
-          {error && <div className="error-box">{error}</div>}
-          <article className="answer-box">
-            {result ? result.answer : "Enter a documentation question to see the answer and sources."}
-          </article>
-
-          <div className="metadata-grid">
-            <div>
-              <span>Generation</span>
-              <strong>{result?.generation_model || generationModel || "Not selected"}</strong>
-            </div>
-            <div>
-              <span>Embedding</span>
-              <strong>{result?.embedding_model || embeddingModel || "Not selected"}</strong>
-            </div>
-            <div>
-              <span>Sources</span>
-              <strong>{usedSources}</strong>
-            </div>
-            <div>
-              <span>Mode</span>
-              <strong>{result?.fallback_used ? "Retrieval preview" : "Model answer"}</strong>
-            </div>
-          </div>
-        </section>
-
-        <aside className="panel evidence-panel">
-          <div className="panel-heading compact">
-            <div>
-              <p className="eyebrow">References</p>
-              <h2>Sources</h2>
-            </div>
-          </div>
-
-          <div className="source-list">
-            {(result?.sources || []).map((source, index) => (
-              <article className="source-card" key={`${source.path}-${index}`}>
-                <div className="source-card-title">
-                  <span>[{index + 1}]</span>
-                  <strong>{source.title}</strong>
+        <section className="content-column">
+          <div className="result-grid">
+            <section className="panel answer-panel">
+              <div className="answer-header">
+                <div>
+                  <p className="eyebrow">Answer</p>
+                  <h2>{result ? "Response from retrieved context" : "Ready"}</h2>
                 </div>
-                <p>{source.section}</p>
-                <code>{source.path}</code>
-                <footer>
-                  <span>{source.source}</span>
-                  <span>{source.score}</span>
-                </footer>
-              </article>
-            ))}
-            {!result?.sources?.length && (
-              <p className="empty-state">No sources yet.</p>
-            )}
-          </div>
-        </aside>
-      </form>
-
-      <section className="panel chunks-panel">
-        <div className="panel-heading compact">
-          <div>
-            <p className="eyebrow">Retrieval details</p>
-            <h2>Retrieved chunks</h2>
-          </div>
-          <Braces size={18} />
-        </div>
-        <div className="chunk-grid">
-          {(result?.retrieved_chunks || []).map((chunk) => (
-            <article className="chunk-card" key={chunk.id}>
-              <header>
-                <FileText size={16} />
-                <strong>{chunk.metadata.title}</strong>
-              </header>
-              <p>{chunk.text}</p>
-              <div className="score-row">
-                <span>Combined {formatScore(chunk.combined_score ?? chunk.score)}</span>
-                <span>Vector {formatScore(chunk.vector_score)}</span>
-                <span>BM25 {formatScore(chunk.bm25_score ?? chunk.keyword_score)}</span>
+                <div className="metric-row">
+                  <span>
+                    <Clock3 size={14} />
+                    {result ? `${result.latency_ms} ms` : "No query yet"}
+                  </span>
+                  <span>{result?.retrieval_mode || retrievalMode}</span>
+                </div>
               </div>
-              <code>
-                {chunk.metadata.source} / {chunk.metadata.section}
-              </code>
-            </article>
-          ))}
-          {!result?.retrieved_chunks?.length && (
-            <p className="empty-state">No retrieved chunks yet.</p>
-          )}
-        </div>
-      </section>
+
+              {error && <div className="error-box">{error}</div>}
+              <article className="answer-box">
+                {result ? result.answer : "Enter a question and run a search."}
+              </article>
+
+              <div className="run-summary">
+                <div>
+                  <span>Sources</span>
+                  <strong>{usedSources}</strong>
+                </div>
+                <div>
+                  <span>Generation model</span>
+                  <strong>{result?.generation_model || generationModel || "Not selected"}</strong>
+                </div>
+                <div>
+                  <span>Answer mode</span>
+                  <strong>{result?.fallback_used ? "Retrieval preview" : "Model answer"}</strong>
+                </div>
+              </div>
+            </section>
+
+            <section className="panel sources-panel">
+              <div className="panel-title">
+                <FileText size={17} />
+                <h2>Sources</h2>
+              </div>
+              <div className="source-list">
+                {(result?.sources || []).slice(0, 4).map((source, index) => (
+                  <article className="source-card" key={`${source.path}-${index}`}>
+                    <div>
+                      <span className="source-number">[{index + 1}]</span>
+                      <strong>{source.title}</strong>
+                      <p>{source.section}</p>
+                      <code>{source.path}</code>
+                    </div>
+                    <span className="score">{source.score}</span>
+                  </article>
+                ))}
+                {!result?.sources?.length && <p className="empty-state">No sources yet.</p>}
+              </div>
+            </section>
+          </div>
+
+          <section className="panel chunks-panel">
+            <div className="panel-title">
+              <SlidersHorizontal size={17} />
+              <h2>Retrieval details</h2>
+            </div>
+            <div className="chunk-list">
+              {topChunks.map((chunk) => (
+                <article className="chunk-row" key={chunk.id}>
+                  <div>
+                    <strong>{chunk.metadata.title}</strong>
+                    <p>{chunk.metadata.source} / {chunk.metadata.section}</p>
+                  </div>
+                  <div className="score-row">
+                    <span>Combined {formatScore(chunk.combined_score ?? chunk.score)}</span>
+                    <span>Vector {formatScore(chunk.vector_score)}</span>
+                    <span>BM25 {formatScore(chunk.bm25_score ?? chunk.keyword_score)}</span>
+                  </div>
+                </article>
+              ))}
+              {!topChunks.length && <p className="empty-state">No retrieved chunks yet.</p>}
+            </div>
+          </section>
+        </section>
+      </form>
     </main>
   );
 }
