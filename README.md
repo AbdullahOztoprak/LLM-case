@@ -20,7 +20,9 @@ If Ollama is not running, the backend returns a retrieval-only preview instead o
 crashing. That keeps the ingestion, retrieval, citation, UI, and evaluation paths easy to
 test on a fresh clone.
 
-## Demo
+## Screenshot
+
+The dashboard below uses the included sample documentation.
 
 ![Docs RAG dashboard with answer, sources, and retrieved chunks](assets/dashboard.png)
 
@@ -35,7 +37,7 @@ test on a fresh clone.
 - Optional Ollama embeddings for local indexing
 - Persistent JSON vector index and Chroma adapter
 - Retrieval modes: `vector`, `bm25`, and `hybrid`
-- React/Vite dashboard with model selection, citations, chunk previews, and score details
+- React/Vite dashboard with a search UI, citations, and retrieval details
 - FastAPI endpoints: `/ask`, `/models`, `/health`
 - Evaluation metrics: Recall@3, Recall@5, MRR, citation rate, refusal rate, latency
 - pytest, ruff, Docker, Makefile, and GitHub Actions
