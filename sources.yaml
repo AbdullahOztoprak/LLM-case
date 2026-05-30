@@ -1,0 +1,42 @@
+sources:
+  - name: github_docs
+    type: github_repo
+    repo: github/docs
+    branch: main
+    include:
+      - content/**/*.md
+    license: CC-BY-4.0
+    attribution: GitHub Docs contributors
+    homepage: https://docs.github.com
+
+  - name: fastapi_docs
+    type: github_repo
+    repo: fastapi/fastapi
+    branch: master
+    include:
+      - docs/en/docs/**/*.md
+    license: MIT
+    attribution: FastAPI contributors
+    homepage: https://fastapi.tiangolo.com
+
+  - name: python_docs
+    type: website_or_repo
+    repo: python/cpython
+    branch: main
+    include:
+      - Doc/tutorial/**/*.rst
+      - Doc/library/venv.rst
+    license: PSF-2.0
+    attribution: Python Software Foundation
+    homepage: https://docs.python.org/3/
+
+  - name: docker_docs
+    type: github_repo
+    repo: docker/docs
+    branch: main
+    include:
+      - content/**/*.md
+      - content/**/*.mdx
+    license: Apache-2.0
+    attribution: Docker Docs contributors
+    homepage: https://docs.docker.com

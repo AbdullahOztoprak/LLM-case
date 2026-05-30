@@ -1,0 +1,16 @@
+{"question": "How can I create a pull request from a fork?", "expected_source": "github_docs", "expected_keywords": ["fork", "pull request", "branch"]}
+{"question": "How do I review changes in a pull request?", "expected_source": "github_docs", "expected_keywords": ["review", "approve", "request changes"]}
+{"question": "How do GitHub Actions workflows run on repository events?", "expected_source": "github_docs", "expected_keywords": ["workflow", "event", "actions"]}
+{"question": "How can I protect a branch before merging pull requests?", "expected_source": "github_docs", "expected_keywords": ["branch protection", "required review", "merge"]}
+{"question": "How do I define path parameters in FastAPI?", "expected_source": "fastapi_docs", "expected_keywords": ["path parameter", "function parameter"]}
+{"question": "How does FastAPI validate request data?", "expected_source": "fastapi_docs", "expected_keywords": ["validation", "pydantic", "request body"]}
+{"question": "How can I add dependencies to a FastAPI path operation?", "expected_source": "fastapi_docs", "expected_keywords": ["dependencies", "Depends", "path operation"]}
+{"question": "How do I test a FastAPI application?", "expected_source": "fastapi_docs", "expected_keywords": ["TestClient", "pytest", "test"]}
+{"question": "How do I create a Python virtual environment?", "expected_source": "python_docs", "expected_keywords": ["venv", "python -m venv"]}
+{"question": "How can I install packages inside a Python virtual environment?", "expected_source": "python_docs", "expected_keywords": ["pip", "install", "venv"]}
+{"question": "What is the Python standard library?", "expected_source": "python_docs", "expected_keywords": ["standard library", "module", "package"]}
+{"question": "How do I run a Python module from the command line?", "expected_source": "python_docs", "expected_keywords": ["python -m", "module", "command line"]}
+{"question": "How do I start services with Docker Compose?", "expected_source": "docker_docs", "expected_keywords": ["docker compose up", "services"]}
+{"question": "How do I stop Docker Compose services?", "expected_source": "docker_docs", "expected_keywords": ["docker compose down", "stop", "containers"]}
+{"question": "How do Docker Compose services define ports and environment variables?", "expected_source": "docker_docs", "expected_keywords": ["ports", "environment", "services"]}
+{"question": "How can a Compose file define volumes for services?", "expected_source": "docker_docs", "expected_keywords": ["volumes", "compose", "services"]}

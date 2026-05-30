@@ -1,0 +1,4 @@
+{"question": "How can I create a pull request from a fork?", "expected_source": "github_docs", "expected_keywords": ["fork", "pull request", "branch"]}
+{"question": "How do I define path parameters in FastAPI?", "expected_source": "fastapi_docs", "expected_keywords": ["path parameter", "function parameter"]}
+{"question": "How do I create a Python virtual environment?", "expected_source": "python_docs", "expected_keywords": ["venv", "python -m venv"]}
+{"question": "How do I start services with Docker Compose?", "expected_source": "docker_docs", "expected_keywords": ["docker compose up", "services"]}
