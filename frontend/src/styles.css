@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap");
 
 :root {
   color: #15171a;
@@ -44,7 +44,7 @@ input {
   margin: 0 0 6px;
   color: #6b7280;
   font-size: 12px;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0;
   text-transform: uppercase;
 }
@@ -58,15 +58,15 @@ p {
 
 h1 {
   color: #111827;
-  font-size: 40px;
-  font-weight: 800;
+  font-size: 38px;
+  font-weight: 600;
   line-height: 1;
 }
 
 h2 {
   color: #111827;
   font-size: 18px;
-  font-weight: 800;
+  font-weight: 500;
 }
 
 .subtitle {
@@ -86,7 +86,7 @@ h2 {
   background: #ffffff;
   color: #3f4652;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .layout {
@@ -144,7 +144,7 @@ h2 {
   margin-bottom: 9px;
   color: #394150;
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 500;
 }
 
 textarea,
@@ -199,7 +199,7 @@ input[type="range"]:focus-visible {
   background: #ffffff;
   color: #394150;
   cursor: pointer;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .chip.active,
@@ -207,7 +207,7 @@ input[type="range"]:focus-visible {
   border-color: #2563eb;
   background: #eff5ff;
   color: #1d4ed8;
-  font-weight: 800;
+  font-weight: 500;
 }
 
 .range-label {
@@ -233,7 +233,7 @@ input[type="range"] {
   cursor: pointer;
   color: #394150;
   font-size: 13px;
-  font-weight: 800;
+  font-weight: 500;
 }
 
 .settings-panel label {
@@ -247,7 +247,7 @@ input[type="range"] {
   margin-bottom: 6px;
   color: #6b7280;
   font-size: 12px;
-  font-weight: 700;
+  font-weight: 500;
 }
 
 .primary-action {
@@ -258,7 +258,7 @@ input[type="range"] {
   background: #111827;
   color: #ffffff;
   cursor: pointer;
-  font-weight: 800;
+  font-weight: 500;
 }
 
 .primary-action:disabled {
@@ -299,7 +299,7 @@ input[type="range"] {
   background: #f8fafc;
   color: #394150;
   font-size: 12px;
-  font-weight: 700;
+  font-weight: 500;
 }
 
 .answer-box {
@@ -323,7 +323,7 @@ input[type="range"] {
   border-radius: 8px;
   background: #fff4f2;
   color: #8a2d24;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .run-summary {
@@ -368,13 +368,13 @@ input[type="range"] {
 .source-number {
   margin-right: 6px;
   color: #2563eb;
-  font-weight: 800;
+  font-weight: 500;
 }
 
 .source-card strong,
 .chunk-row strong {
   color: #111827;
-  font-weight: 800;
+  font-weight: 500;
 }
 
 .source-card p,
@@ -401,7 +401,7 @@ code {
   background: #f59e0b;
   color: #111827;
   font-size: 12px;
-  font-weight: 800;
+  font-weight: 500;
 }
 
 .chunk-row {
@@ -428,7 +428,7 @@ code {
   background: #eef2f7;
   color: #394150;
   font-size: 12px;
-  font-weight: 700;
+  font-weight: 500;
 }
 
 .empty-state {

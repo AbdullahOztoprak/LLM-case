@@ -25,6 +25,11 @@ function formatScore(value) {
   return value.toFixed(3);
 }
 
+function cleanAnswerText(text) {
+  if (!text) return "";
+  return text.replace(/\*\*/g, "").replace(/```/g, "").trim();
+}
+
 function App() {
   const [question, setQuestion] = useState("How can I create a pull request from a fork?");
   const [selectedSources, setSelectedSources] = useState([]);
@@ -242,10 +247,10 @@ function App() {
                 </div>
               </div>
 
-              {error && <div className="error-box">{error}</div>}
-              <article className="answer-box">
-                {result ? result.answer : "Enter a question and run a search."}
-              </article>
+            {error && <div className="error-box">{error}</div>}
+            <article className="answer-box">
+              {result ? cleanAnswerText(result.answer) : "Enter a question and run a search."}
+            </article>
 
               <div className="run-summary">
                 <div>
